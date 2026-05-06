@@ -1,0 +1,734 @@
+# JavaScript Arrays Study Website + Notes
+
+## File 1: `index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Arrays Study Guide</title>
+
+    <style>
+        /* ===============================
+           GLOBAL STYLING
+        ================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 40px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            color: #ffd166;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            background: #111;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin-top: 10px;
+            color: #00ff99;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ffd166;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background: white;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>JavaScript Arrays Complete Guide</h1>
+
+    <p class="intro">
+        Learn JavaScript Arrays with examples, explanations, and important methods.
+    </p>
+
+
+    <!-- ========================================
+         WHAT IS ARRAY
+    ========================================= -->
+
+    <div class="card">
+        <h2>1. What is an Array?</h2>
+
+        <p>
+            An array is a special variable that can store multiple values in a single variable.
+        </p>
+
+<pre>
+// Creating an array
+let fruits = ["Apple", "Banana", "Mango"];
+
+console.log(fruits);
+</pre>
+    </div>
+
+
+    <!-- ========================================
+         ACCESSING ELEMENTS
+    ========================================= -->
+
+    <div class="card">
+        <h2>2. Accessing Array Elements</h2>
+
+        <p>
+            Array values are accessed using index numbers.
+            Index starts from 0.
+        </p>
+
+<pre>
+let colors = ["Red", "Green", "Blue"];
+
+console.log(colors[0]); // Red
+console.log(colors[1]); // Green
+</pre>
+    </div>
+
+
+    <!-- ========================================
+         ARRAY LENGTH
+    ========================================= -->
+
+    <div class="card">
+        <h2>3. Array Length</h2>
+
+<pre>
+let numbers = [10, 20, 30, 40];
+
+console.log(numbers.length);
+</pre>
+
+        <p>
+            The length property returns the total number of elements.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         PUSH METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>4. push() Method</h2>
+
+        <p>
+            push() adds a new element at the end of the array.
+        </p>
+
+<pre>
+let fruits = ["Apple", "Banana"];
+
+fruits.push("Orange");
+
+console.log(fruits);
+</pre>
+    </div>
+
+
+    <!-- ========================================
+         POP METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>5. pop() Method</h2>
+
+        <p>
+            pop() removes the last element from the array.
+        </p>
+
+<pre>
+let fruits = ["Apple", "Banana", "Mango"];
+
+fruits.pop();
+
+console.log(fruits);
+</pre>
+    </div>
+
+
+    <!-- ========================================
+         SHIFT METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>6. shift() Method</h2>
+
+<pre>
+let numbers = [1, 2, 3];
+
+numbers.shift();
+
+console.log(numbers);
+</pre>
+
+        <p>
+            shift() removes the first element.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         UNSHIFT METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>7. unshift() Method</h2>
+
+<pre>
+let numbers = [2, 3, 4];
+
+numbers.unshift(1);
+
+console.log(numbers);
+</pre>
+
+        <p>
+            unshift() adds element at the beginning.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         LOOPING THROUGH ARRAY
+    ========================================= -->
+
+    <div class="card">
+        <h2>8. Loop Through Array</h2>
+
+<pre>
+let fruits = ["Apple", "Banana", "Mango"];
+
+for(let i = 0; i < fruits.length; i++) {
+    console.log(fruits[i]);
+}
+</pre>
+
+        <p>
+            Loop is used to access every element one by one.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         FOREACH METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>9. forEach() Method</h2>
+
+<pre>
+let numbers = [10, 20, 30];
+
+numbers.forEach(function(num){
+    console.log(num);
+});
+</pre>
+
+        <p>
+            forEach() runs a function for each array item.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         MAP METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>10. map() Method</h2>
+
+<pre>
+let numbers = [1, 2, 3];
+
+let doubled = numbers.map(function(num){
+    return num * 2;
+});
+
+console.log(doubled);
+</pre>
+
+        <p>
+            map() creates a new array by transforming elements.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         FILTER METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>11. filter() Method</h2>
+
+<pre>
+let numbers = [1, 2, 3, 4, 5];
+
+let even = numbers.filter(function(num){
+    return num % 2 === 0;
+});
+
+console.log(even);
+</pre>
+
+        <p>
+            filter() creates a new array with matching values.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         FIND METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>12. find() Method</h2>
+
+`
+
+let result = numbers.find(function(num){
+    return num > 10;
+});
+
+console.log(result);
+</pre>
+
+        <p>
+            find() returns the first matching value.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         INCLUDES METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>13. includes() Method</h2>
+
+<pre>
+let fruits = ["Apple", "Banana", "Mango"];
+
+console.log(fruits.includes("Banana"));
+</pre>
+
+        <p>
+            includes() checks if a value exists.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         SORT METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>14. sort() Method</h2>
+
+<pre>
+let numbers = [4, 2, 1, 3];
+
+numbers.sort();
+
+console.log(numbers);
+</pre>
+
+        <p>
+            sort() arranges elements in order.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         REVERSE METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>15. reverse() Method</h2>
+
+<pre>
+let numbers = [1, 2, 3, 4];
+
+numbers.reverse();
+
+console.log(numbers);
+</pre>
+
+        <p>
+            reverse() reverses the array order.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         CONCAT METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>16. concat() Method</h2>
+
+<pre>
+let arr1 = [1, 2];
+let arr2 = [3, 4];
+
+let result = arr1.concat(arr2);
+
+console.log(result);
+</pre>
+
+        <p>
+            concat() joins arrays together.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         SLICE METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>17. slice() Method</h2>
+
+<pre>
+let numbers = [1, 2, 3, 4, 5];
+
+console.log(numbers.slice(1,4));
+</pre>
+
+        <p>
+            slice() returns selected elements.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         SPLICE METHOD
+    ========================================= -->
+
+    <div class="card">
+        <h2>18. splice() Method</h2>
+
+<pre>
+let numbers = [1, 2, 3, 4];
+
+numbers.splice(1,2);
+
+console.log(numbers);
+</pre>
+
+        <p>
+            splice() adds or removes elements.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         ARRAY DESTRUCTURING
+    ========================================= -->
+
+    <div class="card">
+        <h2>19. Array Destructuring</h2>
+
+<pre>
+let colors = ["Red", "Green", "Blue"];
+
+let [a, b, c] = colors;
+
+console.log(a);
+</pre>
+
+        <p>
+            Destructuring stores array values into variables.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         MULTIDIMENSIONAL ARRAY
+    ========================================= -->
+
+    <div class="card">
+        <h2>20. Multidimensional Arrays</h2>
+
+<pre>
+let matrix = [
+    [1, 2],
+    [3, 4]
+];
+
+console.log(matrix[0][1]);
+</pre>
+
+        <p>
+            Arrays inside arrays are called multidimensional arrays.
+        </p>
+    </div>
+
+
+    <!-- ========================================
+         FOOTER
+    ========================================= -->
+
+    <div class="footer">
+        <p>Made for JavaScript Array Learning</p>
+    </div>
+
+</div>
+
+</body>
+</html>
+<!-- ```
+
+---
+
+# File 2: `array_topics.txt`
+
+```txt
+=====================================
+JAVASCRIPT ARRAYS COMPLETE NOTES
+=====================================
+
+1. Introduction to Arrays
+- Arrays store multiple values in one variable.
+- Arrays are ordered collections.
+- Index starts from 0.
+
+Example:
+let fruits = ["Apple", "Banana", "Mango"];
+
+-------------------------------------
+2. Creating Arrays
+-------------------------------------
+Ways to create arrays:
+
+Method 1:
+let arr = [1,2,3];
+
+Method 2:
+let arr = new Array(1,2,3);
+
+-------------------------------------
+3. Accessing Elements
+-------------------------------------
+Use index numbers.
+
+Example:
+arr[0]
+arr[1]
+
+-------------------------------------
+4. Modifying Arrays
+-------------------------------------
+You can change values.
+
+Example:
+arr[0] = 100;
+
+-------------------------------------
+5. Array Length
+-------------------------------------
+length property returns total elements.
+
+Example:
+arr.length
+
+-------------------------------------
+6. push()
+-------------------------------------
+Adds item at end.
+
+Example:
+arr.push(5)
+
+-------------------------------------
+7. pop()
+-------------------------------------
+Removes last item.
+
+Example:
+arr.pop()
+
+-------------------------------------
+8. shift()
+-------------------------------------
+Removes first item.
+
+-------------------------------------
+9. unshift()
+-------------------------------------
+Adds item at beginning.
+
+-------------------------------------
+10. Looping Arrays
+-------------------------------------
+for loop
+forEach loop
+for...of loop
+
+-------------------------------------
+11. map()
+-------------------------------------
+Creates new transformed array.
+
+-------------------------------------
+12. filter()
+-------------------------------------
+Returns matching values.
+
+-------------------------------------
+13. find()
+-------------------------------------
+Returns first matching element.
+
+-------------------------------------
+14. includes()
+-------------------------------------
+Checks value exists or not.
+
+-------------------------------------
+15. sort()
+-------------------------------------
+Sorts array.
+
+-------------------------------------
+16. reverse()
+-------------------------------------
+Reverses order.
+
+-------------------------------------
+17. concat()
+-------------------------------------
+Combines arrays.
+
+-------------------------------------
+18. slice()
+-------------------------------------
+Returns selected elements.
+
+-------------------------------------
+19. splice()
+-------------------------------------
+Adds/removes items.
+
+-------------------------------------
+20. Array Destructuring
+-------------------------------------
+Stores array values into variables.
+
+-------------------------------------
+21. Multidimensional Arrays
+-------------------------------------
+Arrays inside arrays.
+
+Example:
+let matrix = [[1,2],[3,4]];
+
+-------------------------------------
+22. Important Array Methods
+-------------------------------------
+join()
+indexOf()
+lastIndexOf()
+findIndex()
+some()
+every()
+reduce()
+flat()
+flatMap()
+
+-------------------------------------
+23. reduce()
+-------------------------------------
+Used for total sum.
+
+Example:
+let nums = [1,2,3];
+
+let total = nums.reduce((sum, num) => sum + num, 0);
+
+-------------------------------------
+24. Array Best Practices
+-------------------------------------
+- Use meaningful variable names.
+- Avoid unnecessary loops.
+- Use array methods for cleaner code.
+- Keep code readable.
+
+-------------------------------------
+25. Conclusion
+-------------------------------------
+Arrays are one of the most important parts of JavaScript.
+They help manage collections of data efficiently.
+
+=====================================
+END OF NOTES
+=====================================
+``` -->

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript Math Object Study Guide</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .title h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: #38bdf8;
+    }
+
+    .title p {
+      color: #cbd5e1;
+      font-size: 1.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 20px;
+      transition: 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #38bdf8;
+    }
+
+    .card h2 {
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      color: #e2e8f0;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      background: #38bdf8;
+      color: black;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+      transform: scale(1.05);
+    }
+
+    .output {
+      margin-top: 15px;
+      background: #020617;
+      padding: 12px;
+      border-radius: 10px;
+      color: #4ade80;
+      min-height: 60px;
+      overflow-x: auto;
+      font-family: monospace;
+    }
+
+    code {
+      color: #facc15;
+    }
+
+    .top-box {
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 25px;
+      line-height: 1.8;
+    }
+
+    .top-box h2 {
+      color: #4ade80;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #94a3b8;
+      padding-bottom: 20px;
+    }
+
+    .highlight {
+      color: #f472b6;
+      font-weight: bold;
+    }
+
+    @media(max-width: 600px){
+      .title h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="title">
+    <h1>JavaScript Math Object</h1>
+    <p>Complete Interactive Study Guide for Beginners</p>
+  </div>
+
+  <div class="top-box">
+    <h2>About Math Object</h2>
+
+    <p>
+      The <span class="highlight">Math Object</span> in JavaScript provides mathematical constants and functions.
+      It allows developers to perform calculations like rounding numbers, generating random numbers,
+      finding powers, square roots, trigonometric values, and much more.
+    </p>
+
+    <br>
+
+    <h2>Main Features</h2>
+
+    <ul>
+      <li><code>Math.round()</code> → Round to nearest integer</li>
+      <li><code>Math.floor()</code> → Round down</li>
+      <li><code>Math.ceil()</code> → Round up</li>
+      <li><code>Math.random()</code> → Generate random numbers</li>
+      <li><code>Math.max()</code> → Largest number</li>
+      <li><code>Math.min()</code> → Smallest number</li>
+      <li><code>Math.pow()</code> → Power calculation</li>
+      <li><code>Math.sqrt()</code> → Square root</li>
+      <li><code>Math.abs()</code> → Absolute value</li>
+      <li><code>Math.sin()</code>, <code>Math.cos()</code>, <code>Math.tan()</code> → Trigonometry</li>
+      <li><code>Math.PI</code> → Value of π</li>
+    </ul>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Math.round()</h2>
+      <p class="desc">
+        Rounds a number to the nearest integer.
+      </p>
+
+      <code>Math.round(4.6)</code>
+      <button onclick="showRound()">Run Example</button>
+      <div class="output" id="roundOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.floor()</h2>
+      <p class="desc">
+        Always rounds DOWN.
+      </p>
+
+      <code>Math.floor(8.9)</code>
+      <button onclick="showFloor()">Run Example</button>
+      <div class="output" id="floorOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.ceil()</h2>
+      <p class="desc">
+        Always rounds UP.
+      </p>
+
+      <code>Math.ceil(2.1)</code>
+      <button onclick="showCeil()">Run Example</button>
+      <div class="output" id="ceilOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.random()</h2>
+      <p class="desc">
+        Generates a random number between 0 and 1.
+      </p>
+
+      <code>Math.random()</code>
+      <button onclick="showRandom()">Generate</button>
+      <div class="output" id="randomOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.max()</h2>
+      <p class="desc">
+        Returns the largest value.
+      </p>
+
+      <code>Math.max(10, 40, 99, 5)</code>
+      <button onclick="showMax()">Run Example</button>
+      <div class="output" id="maxOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.min()</h2>
+      <p class="desc">
+        Returns the smallest value.
+      </p>
+
+      <code>Math.min(10, 40, 99, 5)</code>
+      <button onclick="showMin()">Run Example</button>
+      <div class="output" id="minOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.pow()</h2>
+      <p class="desc">
+        Finds power of a number.
+      </p>
+
+      <code>Math.pow(2, 4)</code>
+      <button onclick="showPow()">Run Example</button>
+      <div class="output" id="powOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.sqrt()</h2>
+      <p class="desc">
+        Finds square root.
+      </p>
+
+      <code>Math.sqrt(81)</code>
+      <button onclick="showSqrt()">Run Example</button>
+      <div class="output" id="sqrtOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.abs()</h2>
+      <p class="desc">
+        Converts negative numbers into positive.
+      </p>
+
+      <code>Math.abs(-55)</code>
+      <button onclick="showAbs()">Run Example</button>
+      <div class="output" id="absOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.PI</h2>
+      <p class="desc">
+        Returns value of PI.
+      </p>
+
+      <code>Math.PI</code>
+      <button onclick="showPi()">Run Example</button>
+      <div class="output" id="piOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.sin()</h2>
+      <p class="desc">
+        Returns sine value.
+      </p>
+
+      <code>Math.sin(90 * Math.PI / 180)</code>
+      <button onclick="showSin()">Run Example</button>
+      <div class="output" id="sinOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.cos()</h2>
+      <p class="desc">
+        Returns cosine value.
+      </p>
+
+      <code>Math.cos(0)</code>
+      <button onclick="showCos()">Run Example</button>
+      <div class="output" id="cosOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.tan()</h2>
+      <p class="desc">
+        Returns tangent value.
+      </p>
+
+      <code>Math.tan(45 * Math.PI / 180)</code>
+      <button onclick="showTan()">Run Example</button>
+      <div class="output" id="tanOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.trunc()</h2>
+      <p class="desc">
+        Removes decimal part.
+      </p>
+
+      <code>Math.trunc(7.99)</code>
+      <button onclick="showTrunc()">Run Example</button>
+      <div class="output" id="truncOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Math.sign()</h2>
+      <p class="desc">
+        Checks if number is positive or negative.
+      </p>
+
+      <code>Math.sign(-20)</code>
+      <button onclick="showSign()">Run Example</button>
+      <div class="output" id="signOutput"></div>
+    </div>
+
+    <div class="card">
+      <h2>Random Dice Game</h2>
+      <p class="desc">
+        Practical use of Math.random().
+      </p>
+
+      <button onclick="rollDice()">Roll Dice</button>
+      <div class="output" id="diceOutput"></div>
+    </div>
+
+  </div>
+
+  <div class="top-box" style="margin-top:30px;">
+    <h2>Important Notes</h2>
+
+    <ul>
+      <li>The Math object does not need <code>new</code> keyword.</li>
+      <li>Math object is static.</li>
+      <li>You directly use methods like <code>Math.sqrt()</code>.</li>
+      <li>Most trigonometry functions use radians, not degrees.</li>
+      <li><code>Math.random()</code> is commonly used in games.</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <p>Created for JavaScript Learning & Practice 🚀</p>
+  </div>
+
+</div>
+
+<script>
+
+  // Math.round()
+  function showRound() {
+    let result = Math.round(4.6);
+    document.getElementById('roundOutput').innerHTML =
+      'Math.round(4.6) = ' + result;
+  }
+
+  // Math.floor()
+  function showFloor() {
+    let result = Math.floor(8.9);
+    document.getElementById('floorOutput').innerHTML =
+      'Math.floor(8.9) = ' + result;
+  }
+
+  // Math.ceil()
+  function showCeil() {
+    let result = Math.ceil(2.1);
+    document.getElementById('ceilOutput').innerHTML =
+      'Math.ceil(2.1) = ' + result;
+  }
+
+  // Math.random()
+  function showRandom() {
+    let result = Math.random();
+    document.getElementById('randomOutput').innerHTML =
+      'Random Number = ' + result;
+  }
+
+  // Math.max()
+  function showMax() {
+    let result = Math.max(10, 40, 99, 5);
+    document.getElementById('maxOutput').innerHTML =
+      'Largest Number = ' + result;
+  }
+
+  // Math.min()
+  function showMin() {
+    let result = Math.min(10, 40, 99, 5);
+    document.getElementById('minOutput').innerHTML =
+      'Smallest Number = ' + result;
+  }
+
+  // Math.pow()
+  function showPow() {
+    let result = Math.pow(2, 4);
+    document.getElementById('powOutput').innerHTML =
+      '2 to the power 4 = ' + result;
+  }
+
+  // Math.sqrt()
+  function showSqrt() {
+    let result = Math.sqrt(81);
+    document.getElementById('sqrtOutput').innerHTML =
+      'Square Root of 81 = ' + result;
+  }
+
+  // Math.abs()
+  function showAbs() {
+    let result = Math.abs(-55);
+    document.getElementById('absOutput').innerHTML =
+      'Absolute Value = ' + result;
+  }
+
+  // Math.PI
+  function showPi() {
+    let result = Math.PI;
+    document.getElementById('piOutput').innerHTML =
+      'Value of PI = ' + result;
+  }
+
+  // Math.sin()
+  function showSin() {
+    let result = Math.sin(90 * Math.PI / 180);
+    document.getElementById('sinOutput').innerHTML =
+      'Sin 90° = ' + result;
+  }
+
+  // Math.cos()
+  function showCos() {
+    let result = Math.cos(0);
+    document.getElementById('cosOutput').innerHTML =
+      'Cos 0 = ' + result;
+  }
+
+  // Math.tan()
+  function showTan() {
+    let result = Math.tan(45 * Math.PI / 180);
+    document.getElementById('tanOutput').innerHTML =
+      'Tan 45° = ' + result;
+  }
+
+  // Math.trunc()
+  function showTrunc() {
+    let result = Math.trunc(7.99);
+    document.getElementById('truncOutput').innerHTML =
+      'Math.trunc(7.99) = ' + result;
+  }
+
+  // Math.sign()
+  function showSign() {
+    let result = Math.sign(-20);
+    document.getElementById('signOutput').innerHTML =
+      'Math.sign(-20) = ' + result;
+  }
+
+  // Dice Game
+  function rollDice() {
+
+    // Generate number between 1 and 6
+    let dice = Math.floor(Math.random() * 6) + 1;
+
+    document.getElementById('diceOutput').innerHTML =
+      '🎲 Dice Number = ' + dice;
+  }
+
+</script>
+
+</body>
+</html>

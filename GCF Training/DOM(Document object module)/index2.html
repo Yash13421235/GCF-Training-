@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DOM Study Playground</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+    padding: 30px;
+  }
+
+  h1 {
+    transition: all 0.5s ease;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    background: #38bdf8;
+    color: black;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    background: #0ea5e9;
+  }
+
+  #box {
+    width: 150px;
+    height: 150px;
+    background: crimson;
+    margin: 20px auto;
+    transition: all 0.5s ease;
+    border-radius: 12px;
+  }
+
+  .active {
+    transform: rotate(180deg) scale(1.2);
+    background: limegreen;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    background: #1e293b;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 6px;
+    transition: all 0.4s ease;
+  }
+
+  li:hover {
+    transform: translateX(10px);
+    background: #334155;
+  }
+</style>
+</head>
+
+<body>
+
+<h1 id="title">Learn DOM Interactively</h1>
+
+<button id="changeText">Change Text</button>
+<button id="toggleBox">Animate Box</button>
+<button id="addItem">Add Item</button>
+
+<div id="box"></div>
+
+<ul id="list"></ul>
+
+<script>
+  const title = document.getElementById("title");
+  const box = document.getElementById("box");
+  const list = document.getElementById("list");
+
+  // Change text
+  document.getElementById("changeText").addEventListener("click", () => {
+    title.textContent = "DOM is Powerful!";
+    title.style.color = "#38bdf8";
+  });
+
+  // Toggle animation
+  document.getElementById("toggleBox").addEventListener("click", () => {
+    box.classList.toggle("active");
+  });
+
+  // Add new list item
+  document.getElementById("addItem").addEventListener("click", () => {
+    const li = document.createElement("li");
+    li.textContent = "New Item " + (list.children.length + 1);
+
+    // Click to remove with animation
+    li.addEventListener("click", () => {
+      li.style.opacity = "0";
+      li.style.transform = "translateX(100px)";
+      setTimeout(() => li.remove(), 400);
+    });
+
+    list.appendChild(li);
+  });
+</script>
+
+</body>
+</html>

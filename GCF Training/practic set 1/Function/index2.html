@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript Functions Masterclass</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b, #020617);
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 40px;
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      background: linear-gradient(to right, #38bdf8, #818cf8, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      margin-top: 10px;
+      color: #cbd5e1;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 1400px;
+      margin: auto;
+      padding: 40px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 25px;
+      transition: 0.4s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(59,130,246,0.3), transparent);
+      top: -100px;
+      right: -100px;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    }
+
+    .card h2 {
+      color: #38bdf8;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .card p {
+      color: #dbeafe;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    pre {
+      background: #020617;
+      padding: 15px;
+      border-radius: 14px;
+      overflow-x: auto;
+      color: #67e8f9;
+      border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 15px;
+    }
+
+    button {
+      background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+      border: none;
+      padding: 12px 20px;
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .output {
+      margin-top: 15px;
+      background: rgba(0,0,0,0.4);
+      padding: 12px;
+      border-radius: 12px;
+      color: #4ade80;
+      min-height: 45px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 30px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(59,130,246,0.2);
+      color: #93c5fd;
+      margin-bottom: 15px;
+      font-size: 0.8rem;
+    }
+
+    @media(max-width:768px){
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>JavaScript Functions Masterclass</h1>
+  <p>Learn Every Important Function Concept in JavaScript with Interactive Examples</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <div class="tag">Basic Function</div>
+    <h2>1. Normal Function</h2>
+    <p>A normal function is created using the <b>function</b> keyword.</p>
+<pre>
+function greet(name){
+  return "Hello " + name;
+}
+</pre>
+    <button onclick="normalFunction()">Run Example</button>
+    <div class="output" id="out1"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Arrow Function</div>
+    <h2>2. Arrow Function</h2>
+    <p>Arrow functions are shorter and modern syntax for functions.</p>
+<pre>
+const add = (a,b) => a+b;
+</pre>
+    <button onclick="arrowFunction()">Run Example</button>
+    <div class="output" id="out2"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Anonymous</div>
+    <h2>3. Anonymous Function</h2>
+    <p>A function without a name is called anonymous function.</p>
+<pre>
+let x = function(){
+  return "Anonymous";
+}
+</pre>
+    <button onclick="anonymousFunction()">Run Example</button>
+    <div class="output" id="out3"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Callback</div>
+    <h2>4. Callback Function</h2>
+    <p>A callback is passed into another function.</p>
+<pre>
+function process(callback){
+  callback();
+}
+</pre>
+    <button onclick="callbackFunction()">Run Example</button>
+    <div class="output" id="out4"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Default Parameter</div>
+    <h2>5. Default Parameters</h2>
+    <p>Default values are used if no value is passed.</p>
+<pre>
+function user(name="Guest"){
+ return name;
+}
+</pre>
+    <button onclick="defaultFunction()">Run Example</button>
+    <div class="output" id="out5"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Rest Parameter</div>
+    <h2>6. Rest Parameters</h2>
+    <p>Rest parameter collects multiple values into array.</p>
+<pre>
+function total(...nums){
+ return nums;
+}
+</pre>
+    <button onclick="restFunction()">Run Example</button>
+    <div class="output" id="out6"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Return</div>
+    <h2>7. Return Statement</h2>
+    <p>Return sends data back from function.</p>
+<pre>
+function square(x){
+ return x*x;
+}
+</pre>
+    <button onclick="returnFunction()">Run Example</button>
+    <div class="output" id="out7"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Recursive</div>
+    <h2>8. Recursive Function</h2>
+    <p>A function calling itself is recursive function.</p>
+<pre>
+function factorial(n){
+ if(n===1) return 1;
+ return n*factorial(n-1);
+}
+</pre>
+    <button onclick="recursiveFunction()">Run Example</button>
+    <div class="output" id="out8"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">IIFE</div>
+    <h2>9. Immediately Invoked Function</h2>
+    <p>Runs instantly after creation.</p>
+<pre>
+(function(){
+ console.log("Run")
+})();
+</pre>
+    <button onclick="iifeFunction()">Run Example</button>
+    <div class="output" id="out9"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Higher Order</div>
+    <h2>10. Higher Order Function</h2>
+    <p>Functions that take other functions as arguments.</p>
+<pre>
+arr.map(x => x*2)
+</pre>
+    <button onclick="higherFunction()">Run Example</button>
+    <div class="output" id="out10"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Closure</div>
+    <h2>11. Closure</h2>
+    <p>Closure remembers variables from outer function.</p>
+<pre>
+function outer(){
+ let count = 0;
+ return function(){
+   count++;
+ }
+}
+</pre>
+    <button onclick="closureFunction()">Run Example</button>
+    <div class="output" id="out11"></div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Async</div>
+    <h2>12. Async Function</h2>
+    <p>Async functions work with promises.</p>
+<pre>
+async function data(){
+ return "Done";
+}
+</pre>
+    <button onclick="asyncFunctionDemo()">Run Example</button>
+    <div class="output" id="out12"></div>
+  </div>
+
+</div>
+
+<footer>
+  JavaScript Functions Complete Learning Project | HTML + CSS + JS
+</footer>
+
+<script>
+
+function normalFunction(){
+  function greet(name){
+    return "Hello " + name;
+  }
+
+  document.getElementById('out1').innerText = greet('Student');
+}
+
+function arrowFunction(){
+  const add = (a,b) => a+b;
+  document.getElementById('out2').innerText = "10 + 20 = " + add(10,20);
+}
+
+function anonymousFunction(){
+  let x = function(){
+    return "This is anonymous function";
+  }
+
+  document.getElementById('out3').innerText = x();
+}
+
+function callbackFunction(){
+
+  function show(){
+    return "Callback Executed";
+  }
+
+  function process(callback){
+    return callback();
+  }
+
+  document.getElementById('out4').innerText = process(show);
+}
+
+function defaultFunction(){
+
+  function user(name="Guest"){
+    return "Welcome " + name;
+  }
+
+  document.getElementById('out5').innerText = user();
+}
+
+function restFunction(){
+
+  function total(...nums){
+    return nums.reduce((a,b)=>a+b,0);
+  }
+
+  document.getElementById('out6').innerText = "Total = " + total(10,20,30,40);
+}
+
+function returnFunction(){
+
+  function square(x){
+    return x*x;
+  }
+
+  document.getElementById('out7').innerText = "Square of 8 = " + square(8);
+}
+
+function recursiveFunction(){
+
+  function factorial(n){
+    if(n===1) return 1;
+    return n * factorial(n-1);
+  }
+
+  document.getElementById('out8').innerText = "Factorial of 5 = " + factorial(5);
+}
+
+function iifeFunction(){
+
+  let result = (function(){
+    return "IIFE Executed Instantly";
+  })();
+
+  document.getElementById('out9').innerText = result;
+}
+
+function higherFunction(){
+
+  let nums = [1,2,3,4];
+
+  let doubled = nums.map(num => num*2);
+
+  document.getElementById('out10').innerText = doubled.join(' , ');
+}
+
+function closureFunction(){
+
+  function outer(){
+    let count = 0;
+
+    return function(){
+      count++;
+      return count;
+    }
+  }
+
+  let counter = outer();
+
+  document.getElementById('out11').innerText =
+    "Count: " + counter() + ", " + counter() + ", " + counter();
+}
+
+async function asyncFunctionDemo(){
+
+  async function getData(){
+    return "Async Function Completed";
+  }
+
+  let result = await getData();
+
+  document.getElementById('out12').innerText = result;
+}
+
+</script>
+
+</body>
+</html>
