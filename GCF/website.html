@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Gurukul AHE</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #c0392b;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --white: #ffffff;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+
+        body {
+            background-color: #f4f6f9;
+            color: var(--dark);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+
+        /* --- Auth Styles --- */
+        #auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+
+        .auth-box {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+
+        .auth-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+
+        .btn-sm {
+            width: auto;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #219150; }
+       
+        .btn-danger { background: var(--danger); }
+        .btn-danger:hover { background: #a93226; }
+
+
+        .auth-footer {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+
+        .auth-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+
+        /* --- Dashboard Layout --- */
+        #app-container {
+            display: none; /* Hidden by default until logged in */
+            display: flex;
+            height: 100vh;
+        }
+
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s;
+        }
+
+
+        .sidebar-header {
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .nav-links {
+            flex: 1;
+            list-style: none;
+            padding-top: 1rem;
+        }
+
+
+        .nav-item {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+            transition: 0.2s;
+        }
+
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255,255,255,0.1);
+            opacity: 1;
+            border-left: 4px solid var(--accent);
+        }
+
+
+        .user-profile-mini {
+            padding: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .user-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+
+        .content-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+
+        /* --- Sections & Cards --- */
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+
+        .section.active {
+            display: block;
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+
+        .card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+
+        .stat-card h3 {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+
+        /* Tables */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+
+        th {
+            background: #f8f9fa;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+
+        /* Profile Styles */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+
+        .profile-img-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--light);
+        }
+
+
+        .profile-details h2 {
+            margin-bottom: 0.5rem;
+        }
+
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: white;
+            background: var(--secondary);
+        }
+
+
+        .badge.admin { background: var(--danger); }
+        .badge.hr { background: var(--warning); }
+        .badge.employee { background: var(--success); }
+
+
+        /* Attendance Actions */
+        .attendance-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+
+        .attendance-btn {
+            flex: 1;
+            padding: 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.1s;
+        }
+       
+        .attendance-btn:active { transform: scale(0.98); }
+        .attendance-btn:disabled { background: #bdc3c7; cursor: not-allowed; }
+        .bg-in { background: var(--success); }
+        .bg-out { background: var(--danger); }
+
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        .close-modal { cursor: pointer; font-size: 1.5rem; }
+
+
+        /* Toast Notification */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+        .toast {
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s forwards;
+        }
+        .toast.success { border-left: 5px solid var(--success); }
+        .toast.error { border-left: 5px solid var(--danger); }
+       
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -250px;
+                height: 100%;
+                z-index: 999;
+            }
+            .sidebar.show { left: 0; }
+            .menu-toggle { display: block; }
+        }
+        @media (min-width: 769px) {
+            .menu-toggle { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+
+    <!-- AUTHENTICATION SCREEN -->
+    <div id="auth-container">
+        <!-- Login Form -->
+        <div id="login-form" class="auth-box">
+            <div class="auth-logo"><i class="fas fa-code"></i> Code Gurukul</div>
+            <h3>Login to AHE</h3>
+            <br>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="login-email" class="form-control" placeholder="admin@codegurukul.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="login-password" class="form-control" placeholder="********">
+            </div>
+            <button class="btn" onclick="handleLogin()">Login</button>
+            <div class="auth-footer">
+                <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.8rem; color: #777;">
+                Demo: <br>Admin: admin@cg.com / 123 <br>HR: hr@cg.com / 123 <br>Emp: emp@cg.com / 123
+            </div>
+        </div>
+
+
+        <!-- Password Reset (Mock) -->
+        <div id="forgot-form" class="auth-box" style="display:none;">
+            <div class="auth-logo">Reset Password</div>
+            <p style="margin-bottom: 1rem; color: #666;">Enter your email to receive a reset link.</p>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="reset-email" class="form-control" placeholder="Enter email">
+            </div>
+            <button class="btn" onclick="handlePasswordReset()">Send Reset Link</button>
+            <div class="auth-footer">
+                <a href="#" onclick="showLogin()">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-layer-group"></i> Code Gurukul
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active" onclick="navigate('dashboard')"><i class="fas fa-th-large"></i> Dashboard</li>
+                <li class="nav-item" onclick="navigate('profile')"><i class="fas fa-user-circle"></i> Profile</li>
+               
+                <!-- Admin & HR Menu Items -->
+                <li class="nav-item role-admin-only" onclick="navigate('employees')"><i class="fas fa-users"></i> Employees</li>
+               
+                <!-- ERP Menu -->
+                <li class="nav-item" onclick="navigate('attendance')"><i class="fas fa-clock"></i> Attendance</li>
+                <li class="nav-item" onclick="navigate('leaves')"><i class="fas fa-calendar-check"></i> Leaves</li>
+            </ul>
+            <div class="user-profile-mini">
+                <img id="mini-avatar" src="" class="user-avatar-small" alt="User">
+                <div style="flex:1;">
+                    <div id="mini-name" style="font-weight: 600; font-size: 0.9rem;">User</div>
+                    <div id="mini-role" style="font-size: 0.75rem; opacity: 0.7;">Role</div>
+                </div>
+                <i class="fas fa-sign-out-alt" style="cursor: pointer;" onclick="handleLogout()" title="Logout"></i>
+            </div>
+        </nav>
+
+
+        <!-- Main Content Wrapper -->
+        <div class="main-content">
+            <header class="header">
+                <i class="fas fa-bars menu-toggle" style="cursor: pointer; font-size: 1.2rem;" onclick="toggleSidebar()"></i>
+                <div class="page-title" id="page-title">Dashboard</div>
+                <div style="font-size: 0.9rem; color: #666;" id="current-date"></div>
+            </header>
+
+
+            <div class="content-area">
+
+
+                <!-- 1. DASHBOARD SECTION -->
+                <section id="dashboard" class="section active">
+                    <!-- Admin Dashboard -->
+                    <div class="card-grid" id="admin-stats">
+                        <div class="card stat-card">
+                            <h3>Total Employees</h3>
+                            <div class="value" id="stat-total-emp">0</div>
+                        </div>
+                        <div class="card stat-card">
+                            <h3>Present Today</h3>
+                            <div class="value" id="stat-present-today">0</div>
+                        </div>
+                        <div class="card stat-card">
+                            <h3>Pending Leaves</h3>
+                            <div class="value" id="stat-pending-leaves" style="color: var(--warning)">0</div>
+                        </div>
+                    </div>
+
+
+                    <!-- Employee Dashboard -->
+                    <div class="card-grid" id="employee-stats" style="display:none;">
+                        <div class="card stat-card">
+                            <h3>My Attendance Today</h3>
+                            <div class="value" id="stat-my-status">--</div>
+                        </div>
+                        <div class="card stat-card">
+                            <h3>Working Hours</h3>
+                            <div class="value" id="stat-my-hours">0h 0m</div>
+                        </div>
+                        <div class="card stat-card">
+                            <h3>Leave Balance</h3>
+                            <div class="value" id="stat-leave-bal">12</div>
+                        </div>
+                    </div>
+                   
+                    <div class="card">
+                        <h3><i class="fas fa-bullhorn"></i> Announcements</h3>
+                        <p style="margin-top: 10px; color: #555;">Welcome to the new Code Gurukul AHE System. Please mark your attendance on time.</p>
+                    </div>
+                </section>
+
+
+                <!-- 2. PROFILE SECTION -->
+                <section id="profile" class="section">
+                    <div class="profile-header">
+                        <img id="profile-img" src="" class="profile-img-large">
+                        <div class="profile-details">
+                            <h2 id="profile-name">Full Name</h2>
+                            <span id="profile-role-badge" class="badge">Role</span>
+                            <p id="profile-code" style="margin-top: 5px; color: #666;">Code: --</p>
+                            <p style="margin-top: 10px;"><i class="fas fa-envelope"></i> <span id="profile-email">email@example.com</span></p>
+                            <p><i class="fas fa-phone"></i> <span id="profile-phone">1234567890</span></p>
+                            <p><i class="fas fa-calendar"></i> Joined: <span id="profile-join">2023-01-01</span></p>
+                        </div>
+                    </div>
+                   
+                    <div class="card">
+                        <h3>Documents</h3>
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                            <button class="btn btn-sm" style="width: auto;"><i class="fas fa-id-card"></i> View ID Proof</button>
+                            <button class="btn btn-sm" style="width: auto;"><i class="fas fa-file-pdf"></i> View Resume</button>
+                            <button class="btn btn-sm btn-success" style="width: auto;" onclick="showToast('Document upload simulated', 'success')"><i class="fas fa-upload"></i> Upload New</button>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 3. EMPLOYEE MANAGEMENT (Admin Only) -->
+                <section id="employees" class="section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <input type="text" placeholder="Search employees..." class="form-control" style="width: 300px;" onkeyup="filterEmployees(this.value)">
+                        <button class="btn btn-success" style="width: auto;" onclick="openModal('add-employee-modal')"><i class="fas fa-plus"></i> Register Employee</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="employee-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+
+                <!-- 4. ATTENDANCE SECTION -->
+                <section id="attendance" class="section">
+                    <!-- Action Area for Employee -->
+                    <div id="attendance-action-area" style="display:none;">
+                        <div class="attendance-actions">
+                            <button id="btn-checkin" class="attendance-btn bg-in" onclick="handleCheckIn()">
+                                <i class="fas fa-sign-in-alt fa-2x"></i> Check In
+                            </button>
+                            <button id="btn-checkout" class="attendance-btn bg-out" onclick="handleCheckOut()" disabled>
+                                <i class="fas fa-sign-out-alt fa-2x"></i> Check Out
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <h3><i class="fas fa-list"></i> Attendance Records</h3>
+                        <div class="table-container" style="margin-top: 1rem;">
+                            <table id="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Work Hours</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 5. LEAVES SECTION -->
+                <section id="leaves" class="section">
+                    <div class="card-grid">
+                        <div class="card">
+                            <h3>Apply for Leave</h3>
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label>Leave Type</label>
+                                <select id="leave-type" class="form-control">
+                                    <option>Sick Leave</option>
+                                    <option>Casual Leave</option>
+                                    <option>Privilege Leave</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Dates</label>
+                                <input type="date" id="leave-date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <textarea id="leave-reason" class="form-control" rows="2"></textarea>
+                            </div>
+                            <button class="btn" onclick="applyLeave()">Submit Application</button>
+                        </div>
+
+
+                        <div class="card" style="grid-column: span 2;">
+                            <h3>Leave Requests</h3>
+                            <div class="table-container" style="margin-top: 1rem;">
+                                <table id="leave-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Reason</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- JS Populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ADD EMPLOYEE MODAL -->
+    <div id="add-employee-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Register New Employee / HR</h3>
+                <span class="close-modal" onclick="closeModal('add-employee-modal')">&times;</span>
+            </div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="new-emp-name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select id="new-emp-role" class="form-control">
+                    <option value="Employee">Employee</option>
+                    <option value="HR">HR</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="new-emp-email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" id="new-emp-phone" class="form-control">
+            </div>
+            <button class="btn btn-success" onclick="registerEmployee()">Create Account</button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA STORE (Simulated Database) ---
+        const DB = {
+            users: JSON.parse(localStorage.getItem('cg_users')) || [
+                { id: 1, code: 'ADM-001', name: 'Admin User', role: 'Admin', email: 'admin@cg.com', password: '123', phone: '9876543210', joinDate: '2022-01-01' },
+                { id: 2, code: 'HR-001', name: 'HR Manager', role: 'HR', email: 'hr@cg.com', password: '123', phone: '9876543211', joinDate: '2022-02-15' },
+                { id: 3, code: 'EMP-001', name: 'John Doe', role: 'Employee', email: 'emp@cg.com', password: '123', phone: '9876543212', joinDate: '2023-01-10' },
+                { id: 4, code: 'EMP-002', name: 'Jane Smith', role: 'Employee', email: 'jane@cg.com', password: '123', phone: '9876543213', joinDate: '2023-03-05' }
+            ],
+            attendance: JSON.parse(localStorage.getItem('cg_attendance')) || [],
+            leaves: JSON.parse(localStorage.getItem('cg_leaves')) || []
+        };
+
+
+        let currentUser = null;
+
+
+        // --- AUTH FUNCTIONS ---
+        function init() {
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            if(localStorage.getItem('cg_logged_user')) {
+                currentUser = JSON.parse(localStorage.getItem('cg_logged_user'));
+                loadApp();
+            }
+        }
+
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+           
+            const user = DB.users.find(u => u.email === email && u.password === pass);
+           
+            if(user) {
+                currentUser = user;
+                localStorage.setItem('cg_logged_user', JSON.stringify(user));
+                showToast(`Welcome back, ${user.name}`, 'success');
+                loadApp();
+            } else {
+                showToast('Invalid credentials', 'error');
+            }
+        }
+
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('cg_logged_user');
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('auth-container').style.display = 'flex';
+            showToast('Logged out successfully', 'success');
+        }
+
+
+        function showForgotPassword() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('forgot-form').style.display = 'block';
+        }
+
+
+        function showLogin() {
+            document.getElementById('forgot-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
+
+
+        function handlePasswordReset() {
+            showToast('Reset link sent to your email (Simulated)', 'success');
+            showLogin();
+        }
+
+
+        // --- APP INITIALIZATION ---
+        function loadApp() {
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('app-container').style.display = 'flex'; // Fix to flex for sidebar layout
+           
+            // Update User Profile in Sidebar
+            document.getElementById('mini-name').textContent = currentUser.name;
+            document.getElementById('mini-role').textContent = currentUser.role;
+            document.getElementById('mini-avatar').src = `https://picsum.photos/seed/${currentUser.email}/100/100`;
+
+
+            // RBAC: Show/Hide Menu Items
+            const adminItems = document.querySelectorAll('.role-admin-only');
+            adminItems.forEach(el => {
+                el.style.display = (currentUser.role === 'Admin' || currentUser.role === 'HR') ? 'flex' : 'none';
+            });
+
+
+            // Load Dashboard based on Role
+            navigate('dashboard');
+            renderProfile();
+        }
+
+
+        function navigate(sectionId) {
+            // Update UI Active State
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+           
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            // Find nav item containing the onclick with sectionId
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                if(item.getAttribute('onclick').includes(sectionId)) {
+                    item.classList.add('active');
+                }
+            });
+
+
+            // Update Header
+            document.getElementById('page-title').textContent = sectionId.charAt(0).toUpperCase() + sectionId.slice(1);
+
+
+            // Render specific section data
+            if(sectionId === 'dashboard') renderDashboard();
+            if(sectionId === 'employees') renderEmployeeTable();
+            if(sectionId === 'attendance') renderAttendanceTable();
+            if(sectionId === 'leaves') renderLeavesTable();
+           
+            // Handle Attendance Buttons visibility
+            const actionArea = document.getElementById('attendance-action-area');
+            if(currentUser.role === 'Employee' && sectionId === 'attendance') {
+                actionArea.style.display = 'block';
+                updateAttendanceButtons();
+            } else {
+                actionArea.style.display = 'none';
+            }
+
+
+            // Mobile: Close sidebar after nav
+            if(window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('show');
+            }
+        }
+
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+        }
+
+
+        // --- DASHBOARD LOGIC ---
+        function renderDashboard() {
+            if (currentUser.role === 'Admin') {
+                document.getElementById('admin-stats').style.display = 'grid';
+                document.getElementById('employee-stats').style.display = 'none';
+               
+                // Calc Stats
+                const totalEmp = DB.users.filter(u => u.role !== 'Admin').length;
+                const today = new Date().toISOString().split('T')[0];
+                const present = DB.attendance.filter(a => a.date === today).length;
+                const pendingLeaves = DB.leaves.filter(l => l.status === 'Pending').length;
+
+
+                document.getElementById('stat-total-emp').textContent = totalEmp;
+                document.getElementById('stat-present-today').textContent = present;
+                document.getElementById('stat-pending-leaves').textContent = pendingLeaves;
+            } else {
+                document.getElementById('admin-stats').style.display = 'none';
+                document.getElementById('employee-stats').style.display = 'grid';
+               
+                // My Stats
+                const today = new Date().toISOString().split('T')[0];
+                const myAtt = DB.attendance.find(a => a.userId === currentUser.id && a.date === today);
+               
+                document.getElementById('stat-my-status').textContent = myAtt ? (myAtt.checkOut ? 'Completed' : 'Working') : 'Absent';
+                document.getElementById('stat-my-hours').textContent = myAtt && myAtt.workHours ? myAtt.workHours : '0h 0m';
+                document.getElementById('stat-leave-bal').textContent = '12'; // Mock static balance
+            }
+        }
+
+
+        // --- PROFILE LOGIC ---
+        function renderProfile() {
+            const u = currentUser;
+            document.getElementById('profile-img').src = `https://picsum.photos/seed/${u.email}/300/300`;
+            document.getElementById('profile-name').textContent = u.name;
+            document.getElementById('profile-code').textContent = `Code: ${u.code}`;
+            document.getElementById('profile-email').textContent = u.email;
+            document.getElementById('profile-phone').textContent = u.phone;
+            document.getElementById('profile-join').textContent = u.joinDate;
+           
+            const badge = document.getElementById('profile-role-badge');
+            badge.textContent = u.role;
+            badge.className = `badge ${u.role.toLowerCase()}`;
+        }
+
+
+        // --- EMPLOYEE MANAGEMENT (ADMIN) ---
+        function renderEmployeeTable(filterText = '') {
+            const tbody = document.querySelector('#employee-table tbody');
+            tbody.innerHTML = '';
+           
+            const filtered = DB.users.filter(u =>
+                u.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                u.email.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+
+            filtered.forEach(u => {
+                if(u.role === 'Admin') return; // Hide admin from list
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="https://picsum.photos/seed/${u.email}/40/40" style="border-radius:50%"></td>
+                    <td>${u.code}</td>
+                    <td>${u.name}</td>
+                    <td><span class="badge ${u.role.toLowerCase()}">${u.role}</span></td>
+                    <td>${u.email}</td>
+                    <td>
+                        <button class="btn btn-sm" style="width:auto" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+       
+        function filterEmployees(val) {
+            renderEmployeeTable(val);
+        }
+
+
+        function registerEmployee() {
+            const name = document.getElementById('new-emp-name').value;
+            const role = document.getElementById('new-emp-role').value;
+            const email = document.getElementById('new-emp-email').value;
+            const phone = document.getElementById('new-emp-phone').value;
+
+
+            if(!name || !email) {
+                showToast('Please fill required fields', 'error');
+                return;
+            }
+
+
+            // Auto Code
+            const prefix = role === 'HR' ? 'HR' : 'EMP';
+            const count = DB.users.filter(u => u.role === role).length + 1;
+            const code = `${prefix}-00${count}`;
+
+
+            const newUser = {
+                id: Date.now(),
+                code,
+                name,
+                role,
+                email,
+                password: '123', // Default password
+                phone,
+                joinDate: new Date().toISOString().split('T')[0]
+            };
+
+
+            DB.users.push(newUser);
+            localStorage.setItem('cg_users', JSON.stringify(DB.users));
+           
+            showToast('Employee Registered Successfully', 'success');
+            closeModal('add-employee-modal');
+            renderEmployeeTable();
+           
+            // Clear inputs
+            document.getElementById('new-emp-name').value = '';
+            document.getElementById('new-emp-email').value = '';
+        }
+
+
+        // --- ATTENDANCE LOGIC ---
+        function handleCheckIn() {
+            const today = new Date().toISOString().split('T')[0];
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+           
+            // Check if already checked in
+            const existing = DB.attendance.find(a => a.userId === currentUser.id && a.date === today);
+            if(existing) return;
+
+
+            const record = {
+                id: Date.now(),
+                userId: currentUser.id,
+                date: today,
+                checkIn: time,
+                checkOut: null,
+                workHours: null,
+                status: 'Present'
+            };
+
+
+            DB.attendance.push(record);
+            localStorage.setItem('cg_attendance', JSON.stringify(DB.attendance));
+           
+            showToast(`Checked In at ${time}`, 'success');
+            updateAttendanceButtons();
+            renderAttendanceTable();
+            renderDashboard(); // Update stats
+        }
+
+
+        function handleCheckOut() {
+            const today = new Date().toISOString().split('T')[0];
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+
+            const record = DB.attendance.find(a => a.userId === currentUser.id && a.date === today);
+            if(record) {
+                record.checkOut = time;
+                // Calculate Hours (Simple diff)
+                const inMins = parseInt(record.checkIn.split(':')[0])*60 + parseInt(record.checkIn.split(':')[1]); // roughly
+                const outMins = parseInt(time.split(':')[0])*60 + parseInt(time.split(':')[1]);
+                const diff = outMins - inMins;
+                const hours = Math.floor(diff / 60);
+                const mins = diff % 60;
+                record.workHours = `${hours}h ${mins}m`;
+               
+                // Late Entry Logic (Mock: After 10:00 AM is late)
+                const inHour = parseInt(record.checkIn.split(':')[0]);
+                if(inHour >= 10) record.status = 'Late Entry';
+                else record.status = 'Present';
+
+
+                localStorage.setItem('cg_attendance', JSON.stringify(DB.attendance));
+               
+                showToast(`Checked Out. Total: ${record.workHours}`, 'success');
+                updateAttendanceButtons();
+                renderAttendanceTable();
+                renderDashboard();
+            }
+        }
+
+
+        function updateAttendanceButtons() {
+            const today = new Date().toISOString().split('T')[0];
+            const record = DB.attendance.find(a => a.userId === currentUser.id && a.date === today);
+           
+            const btnIn = document.getElementById('btn-checkin');
+            const btnOut = document.getElementById('btn-checkout');
+
+
+            if(!record) {
+                btnIn.disabled = false;
+                btnIn.style.opacity = '1';
+                btnOut.disabled = true;
+                btnOut.style.opacity = '0.5';
+            } else if (!record.checkOut) {
+                btnIn.disabled = true;
+                btnIn.style.opacity = '0.5';
+                btnOut.disabled = false;
+                btnOut.style.opacity = '1';
+            } else {
+                btnIn.disabled = true;
+                btnIn.style.opacity = '0.5';
+                btnOut.disabled = true;
+                btnOut.style.opacity = '0.5';
+            }
+        }
+
+
+        function renderAttendanceTable() {
+            const tbody = document.querySelector('#attendance-table tbody');
+            tbody.innerHTML = '';
+           
+            // Admin/HR sees all, Employee sees self
+            let records = [];
+            if(currentUser.role === 'Admin' || currentUser.role === 'HR') {
+                records = DB.attendance; // Show all, sort by date desc
+            } else {
+                records = DB.attendance.filter(a => a.userId === currentUser.id);
+            }
+
+
+            records.sort((a,b) => new Date(b.date) - new Date(a.date)); // Newest first
+
+
+            records.forEach(r => {
+                const u = DB.users.find(user => user.id === r.userId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${r.date}</td>
+                    <td>${u ? u.name : 'Unknown'}</td>
+                    <td>${r.checkIn}</td>
+                    <td>${r.checkOut || '--'}</td>
+                    <td>${r.workHours || '--'}</td>
+                    <td><span class="badge" style="background:${r.status === 'Late Entry' ? 'var(--warning)' : 'var(--success)'}">${r.status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+
+        // --- LEAVE MANAGEMENT ---
+        function applyLeave() {
+            const type = document.getElementById('leave-type').value;
+            const date = document.getElementById('leave-date').value;
+            const reason = document.getElementById('leave-reason').value;
+
+
+            if(!date || !reason) {
+                showToast('Please provide date and reason', 'error');
+                return;
+            }
+
+
+            const req = {
+                id: Date.now(),
+                userId: currentUser.id,
+                type,
+                date,
+                reason,
+                status: 'Pending' // Pending -> Recommended (HR) -> Approved/Rejected (Admin)
+            };
+
+
+            DB.leaves.push(req);
+            localStorage.setItem('cg_leaves', JSON.stringify(DB.leaves));
+            showToast('Leave Application Submitted', 'success');
+            renderLeavesTable();
+            renderDashboard(); // Update pending count
+        }
+
+
+        function renderLeavesTable() {
+            const tbody = document.querySelector('#leave-table tbody');
+            tbody.innerHTML = '';
+
+
+            let records = [];
+            // Admin sees all, HR sees all (to recommend), Employee sees own
+            if(currentUser.role === 'Employee') {
+                records = DB.leaves.filter(l => l.userId === currentUser.id);
+            } else {
+                records = DB.leaves;
+            }
+            records.sort((a,b) => b.id - a.id);
+
+
+            records.forEach(l => {
+                const u = DB.users.find(user => user.id === l.userId);
+                const tr = document.createElement('tr');
+               
+                // Determine Actions based on Role and Status
+                let actions = '';
+                if(currentUser.role === 'Admin') {
+                    if(l.status === 'Pending' || l.status === 'Recommended') {
+                        actions = `
+                            <button class="btn btn-sm btn-success" onclick="updateLeaveStatus(${l.id}, 'Approved')"><i class="fas fa-check"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="updateLeaveStatus(${l.id}, 'Rejected')"><i class="fas fa-times"></i></button>
+                        `;
+                    }
+                } else if (currentUser.role === 'HR') {
+                    if(l.status === 'Pending') {
+                        actions = `<button class="btn btn-sm" style="background:var(--accent); color:white;" onclick="updateLeaveStatus(${l.id}, 'Recommended')">Recommend</button>`;
+                    }
+                }
+
+
+                // Color status
+                let badgeColor = 'var(--secondary)';
+                if(l.status === 'Approved') badgeColor = 'var(--success)';
+                if(l.status === 'Rejected') badgeColor = 'var(--danger)';
+                if(l.status === 'Recommended') badgeColor = 'var(--accent)';
+
+
+                tr.innerHTML = `
+                    <td>${u ? u.name : 'Unknown'}</td>
+                    <td>${l.type}</td>
+                    <td>${l.date}</td>
+                    <td>${l.reason}</td>
+                    <td><span class="badge" style="background:${badgeColor}">${l.status}</span></td>
+                    <td>${actions}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+
+        function updateLeaveStatus(id, newStatus) {
+            const leave = DB.leaves.find(l => l.id === id);
+            if(leave) {
+                leave.status = newStatus;
+                localStorage.setItem('cg_leaves', JSON.stringify(DB.leaves));
+                showToast(`Leave ${newStatus}`, newStatus === 'Approved' ? 'success' : 'error');
+                renderLeavesTable();
+                renderDashboard();
+            }
+        }
+
+
+        // --- UTILS ---
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${msg}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+
+        // Initialize
+        init();
+
+
+    </script>
+</body>
+</html>
+
